@@ -7,15 +7,15 @@ PHP 7.0.8 MySQL 5.5.42 Web-Server Apache 2.2.29
 
 1. Model Account.php
     Contains methods:
-getAccounts - handles request for list of accounts. 
+$ getAccounts - handles request for list of accounts. 
     Returns list of accounts.
-getOneAcc - handles request for list of one accounts's data. Request must contain $login.
+- getOneAcc - handles request for list of one accounts's data. Request must contain $login.
     Returns account's data list.
-getOneAccLight - handles request for login&password. Request must contain $login.
+@ getOneAccLight - handles request for login&password. Request must contain $login.
     Returns login$password.
-newAcc - handles request for creating account. Request must contain $login&$password.
+! newAcc - handles request for creating account. Request must contain $login&$password.
     Returns action result.
-editAcc - handles request for editing account. Request must contain $login.
+& editAcc - handles request for editing account. Request must contain $login.
     Returns action result.
 editPassword - handles request for editing account's password. Request must contain $login&$password.
     Returns action result.

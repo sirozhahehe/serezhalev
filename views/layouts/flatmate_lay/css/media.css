@@ -1,0 +1,222 @@
+/*==========  Desktop First Method  ==========*/
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+    #contact textarea{
+        min-width: 456px;
+    }
+    #introduce .browhed{
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+    img.headerpic{
+        display: none;
+    }
+    .row {
+        position: relative;
+    }
+    #details h2{
+        margin-top: 50px;
+    }
+    #details .detnregbutton{
+        position: absolute;
+        top: 5px;
+        left: 260px;
+    }
+    #introduce h1{
+        font-size: 44px;
+    }
+    #price ul{
+        width: 230px;
+    }
+    #price .fr33 a{
+        padding: 18px 67px
+    }
+    #price .enterpris3 a, #price .prof3ssional a{
+        padding: 18px 59px
+    }
+    #contact img{
+        margin-bottom: 50px;
+        margin-top: 50px;
+    }
+    #contact input, #contact textarea{
+        width: 100%;
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+    .navbar li{
+        display: inline-block;
+    }
+    .navbar .navbar-header{
+        display: inline-block;
+    }
+    .navbar ul{
+        display: inline-block;
+        float: right;
+        margin-top: 0;
+        margin-right: 10px;
+    }
+    a.navbar-brand{
+        margin-left: 10px!important;
+    }
+    #headerwrap p{
+        max-width: 500px;
+        width: 100%;
+    }
+    #details p{
+        margin-right: 5px;
+    }
+    #price ul{
+        width: 290px;
+        margin-bottom: 70px;
+    }
+    #price li.lastbutton{
+        margin-top: 25px;
+    }
+    #price .fr33 a{
+        padding: 18px 97px
+    }
+    #price .enterpris3 a, #price .prof3ssional a{
+        padding: 18px 89px
+    }
+    #introduce h1{
+        font-size: 42px;
+        text-align: center;
+    }
+    #introduce p{
+        text-align: center;
+    }
+    #footer a.twitter{
+        margin-right: 20px;
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+    .container{
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+    a.navbar-brand{
+        margin-left: 15px!important;
+    }
+    .navbar .navbar-header{
+        display: block;
+    }
+    .navbar ul{
+        display: block;
+    }
+    .nav>li>a.log_in{
+        margin-top: 10px;
+    }
+    .nav>li>a.accountx{
+        margin-top: 12px;
+    }
+    #headerwrap{
+        padding-bottom: 70px;
+    }
+    #headerwrap h1{
+        margin-top: 200px;
+    }
+    #details .detnregbutton{
+        left: 225px;
+    }
+    #price h2{
+        margin-right: 12px;
+        margin-left: 12px;
+        font-size: 34px;
+        margin-top: 40px;
+    }
+    #price p{
+        margin-right: 12px;
+        margin-left: 12px;
+    }
+    #contact textarea{
+        min-width: 300px;
+    }
+    #contact input, #contact textarea{
+        margin-bottom: 0px;
+    }
+    #contact label{
+        margin-bottom: 0;
+    }
+    #footer a.logo{
+        margin-top: 0px;
+        margin-bottom: 15px;
+    }
+    #footer p{
+        display: block;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+    #footer a.facebook{
+        margin-right: 15px;
+    }
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width : 320px) {
+    .nav>li>a.log_in{
+        margin-right: 15px;
+        margin-top: 0px;
+        display: inline-block;
+        float: right;
+    }
+    .nav>li>a.accountx{
+        margin-right: 0px;
+        margin-top: 2px;
+    }
+    .nav li{
+        display: block;
+    }
+    #headerwrap h1{
+        font-size: 36px;
+    }
+    #headerwrap p{
+        font-size: 18px;
+    }
+    #headerwrap a{
+        font-size: 24px;
+    }
+    #introduce h1{
+        font-size: 38px;
+    }
+    #introduce p{
+        margin-left: 0;
+    }
+    #price ul{
+        width: 250px;
+    }
+    #price li{
+        padding-bottom: 20px;
+        padding-top: 20px;
+    }
+    #price .enterpris3 a, #price .prof3ssional a{
+        padding: 18px 69px;
+    }
+    #price .fr33 a{
+        padding: 18px 77px;
+    }
+    #contact img{
+        height: 230px;
+        width: 230px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    #contact textarea{
+        min-width: 200px;
+    }
+    #contact{
+        font-size: 22px;
+    }
+    #contact input, #contact textarea{
+        font-size: 16px;
+    }
+    
+}

@@ -1,0 +1,147 @@
+/*==========  Desktop First Method  ==========*/
+@media only screen and (max-height : 500px)
+{
+    #headerwrap h1{
+        margin-top: 70px;
+        margin-bottom: 0px;
+    }
+    #headerwrap p{
+        margin-bottom: 0px;
+    }
+    #headerwrap hr{
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+}
+@media only screen and (max-height : 350px)
+{
+    #headerwrap h1{
+        font-size: 52px;
+    }
+    #headerwrap p{
+        font-size: 26px;
+        line-height: 1.1;
+    }
+}
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+    
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+     
+     #imagework{
+         width: 70%;
+         margin-bottom: 15px;
+         min-height: 170px;
+    }
+   
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+    #headerwrap{
+        text-align: center;
+    }
+    #headerwrap p{
+        text-align: center;
+        letter-spacing: 0;
+    }
+    #headerwrap hr{
+        float:none;
+        width:100%;
+    }
+    #headerwrap form a{
+        display: block;
+        margin-top: 10px;
+    }
+    #headerwrap form input.sbm{
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    #myworks{
+        text-align: center;
+    }
+    #myworks h1{
+        font-size: 50px;
+        letter-spacing: 5px;
+    }
+    #myworks a{
+        font-size: 28px;
+    }
+    #myworks p{
+        letter-spacing: 1px;
+        font-size: 20px;
+    }
+    .navbar-header a{
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-size: 18px;
+    }
+    .brand-type a{
+        margin-top: 8px;
+    }
+    .imageworks{
+        margin-top: 15px; 
+    }
+    #onepost form,.news .onepost{
+        margin-top: 10%;
+    }
+    .users{
+        margin-top: 12%;
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+    #headerwrap h1{
+        font-size: 44px;
+        margin-top: 150px;
+    }
+    #headerwrap p{
+        font-size: 26px;
+    }
+    #imagework{
+        width: 100%;
+    }
+    #myworks h1{
+        letter-spacing: 3px;
+        font-size: 44px;
+    }
+    #onepost form,.news .onepost{
+        margin-top: 12%;
+    }
+    .users {
+        margin-top: 18%;
+    }
+}
+@media only screen and (max-width : 385px)
+{
+    a.navbar-brand{
+        display: none;
+    }
+    #headerwrap h1{
+        margin-top: 120px;
+    }
+    #headerwrap form{
+        font-size: 18px;
+    }
+    #headerwrap input{
+        width: 150px;
+    }
+}
+/* Custom, iPhone Retina */
+@media only screen and (max-width : 320px) {
+    .navbar-toggle{
+        margin-right: 1px;
+    }
+    #headerwrap h1{
+        font-size: 36px;
+    }
+    #headerwrap p{
+        font-size: 20px;
+    }
+    
+}

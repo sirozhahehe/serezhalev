@@ -1,0 +1,270 @@
+/*==========  Desktop First Method  ==========*/
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+    .botmenu li{
+        margin-right: -10px;
+    }
+    .caruselcaption h2{
+        margin-top: 40px;
+    }
+    .carousel-control.right{
+        margin-top: 0;
+        margin-left: 163px;
+    }
+     #dontlove{
+        height: 450px;
+    }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+   .sharebar a{ 
+       margin-right: 5px;
+       margin-top: 15px;
+    }
+    a.unvouch{
+        margin-right: 0px;
+        margin-top: 8px;
+    }
+    input[type="search"]{
+        margin-left: 450px;
+        margin-bottom: 10px
+    }
+    #dontlove{
+        height: 670px;
+    }
+    .caruselcaption{
+        margin-left: 10px;
+    }
+    .caruselcaption h2{
+        margin-top: 20px;
+        font-size: 14px;
+    }
+    .carousel-control.left{
+        position: absolute;
+        top: 35px;
+        left: 500px;
+        margin-left: 0px;
+    }
+    .carousel-control.right{
+        position: absolute;
+        top: 35px;
+        left: 500px;
+    }
+    .inspiredcolls img{
+        height: 140px;
+    }
+    
+    .inspiredcolls .collz {
+        height: 140px;
+    }
+    .inspiredcolls .refloat p{
+        float: left;
+        padding-right: 10px;
+        padding-left: 0px;
+    }
+    .inspiredcolls .refloat img{
+        float: right;
+    }
+    .inspiredcolls{
+        margin-right: 50px;
+        margin-left: 50px;
+    }
+    .invit3d .coll9{
+        width: 100%;
+        margin-left: 5px;
+        height: 355px;
+        margin-bottom: 50px;
+    }
+    .invit3d h1, .invit3d p{
+        margin-left: -15px;
+    }
+    .copyrights{
+        margin-top: 30px;
+    }
+    .foot-age hr{
+        margin-bottom: 10px;
+    }
+    .foot-age ul{
+        margin-bottom: 30px;
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 767px) {
+   ul.sharebar li{
+       display: inline-block;
+       margin-top: 10px;
+       margin-bottom: 0;
+       padding-bottom: 0px;
+    }
+    ul.sharebar{
+        text-align: right;
+        margin-top: -80px; 
+    }
+    .sharebar a{ 
+       margin-right: 10px;
+       margin-top: 0;
+    }
+    .botmenu{
+        margin-top: 5px;   
+    }
+    button.navbar-toggle {
+        margin-top: 32px;
+    }
+    .navbar-collapse.in {
+        overflow-y: initial;
+    }
+    .navbar-form .form-group{
+        margin-bottom: 0;
+        margin-left: 10px;
+    }
+     .navbar-nav>li>a.unvouch{
+        display: none;
+    }
+     input[type="search"]{
+        margin-left: 0;
+        margin-bottom: 0px
+    }
+    button[type="submit"]{
+        left: 185px;
+        top: 16px;
+    }
+    #dontlove{
+        height: 660px;
+    }
+    .carousel-control.left{
+        left: 200px;
+    }
+    .carousel-control.right{
+        left: 200px;
+    }
+    .inspiredcolls img{
+        height: 130px;
+    }
+    .inspiredcolls .collz {
+        height: 130px;
+    }
+    .navbar-bottom>li {
+    float: left;
+    }
+    .navbar-bottom{ margin: 0;}
+    button.btn, btn-primary{
+        left: 0;
+        margin-left: -10px;
+    }
+}
+@media only screen and (max-width : 664px) {
+     ul.sharebar{
+        text-align: right;
+        margin-top: 0; 
+    }
+    ul.sharebar li:last-child{
+        margin-right: 20px; 
+    }
+    #dontlove{
+        height: 600px;
+    }
+    .inspiredcolls p{
+        letter-spacing: 0;
+    }
+    .invit3d .coll9{
+        margin-bottom: 30px;
+        height: 385px;
+    }
+    .headerwrapper{
+        margin-right: 15px;
+        margin-left: 15px;
+    }
+    #myCarousel{
+        margin-right: 0;
+        margin-left: 0;
+    }
+    .inspiredbleck{
+        margin-right: 15px;
+        margin-left: 15px;
+    }
+    .inspiredcolls{
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+    .inspiredcolls .collz{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .invit3d{
+        margin-right: 15px;
+        margin-left: 15px;
+    }
+    .content-footer{
+        margin: 25px 15px 0;
+    }
+    .copyrights{
+        margin-left: 25px;
+        margin-top: 50px;
+    }
+    
+}
+    
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 460px) {
+    .navbar-toggle{
+        margin-right: 0;
+    }
+    button.navbar-toggle {
+        margin-top: 20px;
+    }
+    #dontlove{
+        height: 500px;
+    }
+    .carousel-control.left{
+        left: 200px;
+    }
+    .carousel-control.right{
+        left: 200px;
+        margin-left: 60px;
+    }
+    .inspiredcolls .refloat img{
+        float: none;
+    }
+    .inspiredcolls .refloat p{
+        float:none;
+        padding-right: 0;
+    }
+    .inspiredcolls img{
+        height: 100px;
+        width: auto;
+        margin-bottom: 10px;
+    }
+    .inspiredcolls p{
+        width: 100%;
+        padding-left: 0;
+    }
+    .inspiredcolls .collz {
+        min-height: 140px;
+        height: auto;
+    }
+    .invit3d .coll9{
+        display: none;
+    }
+    .invit3d h1, .invit3d p{
+        margin-left: -10px;
+    }
+    .container{
+        padding: 0 5px;
+    }
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width : 320px) {
+    .carousel-control.left{
+        left: 150px;
+    }
+    .carousel-control.right{
+        left: 130px;
+    }
+    a.ilove{
+        margin-right: 10px;
+    }
+}

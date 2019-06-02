@@ -99,7 +99,7 @@ class AccountController{
      */
     public function actionView($login){
         $result = $this->acc_obj->getOneAcc($login);
-        if($_SESSION['login'] == $result['login'] || $_SESSION['login'] == 'root'){
+        if($_SESSION['login'] == $result['login']){
             require_once ROOT.'/views/account/view.php';
         } else {
             $_SESSION['msg'] = 'You have not enough permissions'; //needs to show to user his incorrect action
@@ -114,7 +114,7 @@ class AccountController{
      * @return true -//-
      */
     public function actionEdit($login){
-        if ($_SESSION['login'] == $login || $_SESSION['login'] == 'root'){
+        if ($_SESSION['login'] == $login){
             $edit_result = $this->acc_obj->editAcc($login,$_POST['firstname'],$_POST['surname'],$_POST['gender'],$_POST['birth_date']);
 
             if ($edit_result){
@@ -134,7 +134,7 @@ class AccountController{
      * @return true -//-
      */
     public function actionRemove($login){
-        if ($_SESSION['login'] == $login || $_SESSION['login'] == 'root'){
+        if ($_SESSION['login'] == $login){
             $rm_result = $this->acc_obj->removeAcc($login);
             if ($rm_result){
                 $_SESSION['msg'] = 'Remove successful'; // needs to show to user status of his action
@@ -155,7 +155,7 @@ class AccountController{
      */
     public function actionEditpw($login){
 
-        if ($_SESSION['login'] == $login || $_SESSION['login'] == 'root'){
+        if ($_SESSION['login'] == $login){
             require_once ROOT.'/views/account/editpw.php';
             if ($_POST['password']){
                 $edit_result = $this->acc_obj->editPassword($login,$_POST['password']);

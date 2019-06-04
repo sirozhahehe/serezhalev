@@ -1,7 +1,7 @@
 <?php
 return array(
-    'host' => 'localhost',
+    'host' => 'localhost:8889',
     'user' => 'root',
-    'password' => '',
-    'database' =>''
+    'password' => 'root',
+    'database' =>'lev_db'
 );

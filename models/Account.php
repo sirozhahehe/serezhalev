@@ -1,8 +1,17 @@
 <?php
 require_once ROOT.'/components/Db.php';
+require_once ROOT.'/components/Encrypter.php';
+require_once ROOT.'/components/InputCleaner.php';
+
 class Account
 {
 
+    private $pdo;
+
+    public function __construct()
+    {
+        $this->pdo = Db::sqlConnection();
+    }
     /** getAccounts - handles request from AccountController, cleans input through inClean method
      * calls queryGetAllAcc that returns Array with data that matches the request. After small editing
      * necessary for correct display 'gender' info, Array returns to AccountController
@@ -14,21 +23,14 @@ class Account
      * @param $page int -  exp. number of page
      * @return array
      */
+
     public function getAccounts($page = 1, $keyword = '%',$birth_date = '%',$gender = 0,$order = 'birth_date',$order_type = 2){
         $var_array = array('page','keyword','birth_date','gender','order','order_type');
         foreach ($var_array as $var){
-            $$var = $this->inClean($$var);
+            $$var = InputCleaner::inClean($$var);
         }
         $result = $this->queryGetAllAcc($keyword,$birth_date,$gender,$order,$order_type,$page);
-        for ($i=0;$i < count($result);$i++){  // needs for understandable view of gender data
-            if ($result[$i]['gender'] == 3) {
-                $result[$i]['gender'] = 'Not selected.';
-            } elseif ($result[$i]['gender'] == 1) {
-                $result[$i]['gender'] = 'Male';
-            } else {
-                $result[$i]['gender'] = 'Female';
-            }
-        }
+
         return $result;
     }
 
@@ -39,7 +41,7 @@ class Account
      * @return array
      */
     public function getOneAcc($login){
-        $login = $this->inClean($login);
+        $login = InputCleaner::inClean($login);
         $result = $this->queryGetOneAcc($login);
             if ($result['gender'] == 0) {
                 $result['gender'] = 'Not selected.';
@@ -57,7 +59,7 @@ class Account
      * @return bool/array
      */
     public function getLightAcc($login){
-        $login = $this->inClean($login);
+        $login = InputCleaner::inClean($login);
         $result = $this->queryGetOneAccLight($login);
         if ($result){
             return $result;
@@ -79,7 +81,7 @@ class Account
     public function newAcc($login,$password,$firstname = '0',$surname = '0',$gender = 0, $birth_date = '0000-00-00'){
         $var_array = array('login','password','firstname','surname','gender','birth_date');
         foreach ($var_array as $var){
-            $$var = $this->inClean($$var);
+            $$var = InputCleaner::inClean($$var);
         }
         $result = $this->queryNewAcc($login,$password,$firstname,$surname,$gender,$birth_date);
         if ($result) {
@@ -101,7 +103,7 @@ class Account
     public function editAcc($login,$firstname = ' ',$surname = ' ',$gender = 0, $birth_date = '0000-00-00'){
         $var_array = array('login','firstname','surname','gender','birth_date');
         foreach ($var_array as $var){
-            $$var = $this->inClean($$var);
+            $$var = InputCleaner::inClean($$var);
         }
         $result = $this->queryEditAcc($login,$firstname,$surname,$gender,$birth_date);
         return $result;
@@ -114,8 +116,8 @@ class Account
      * @return bool
      */
     public function editPassword($login,$password){
-        $password = $this->inClean($password);
-        $login = $this->inClean($login);
+        $password = InputCleaner::inClean($password);
+        $login = InputCleaner::inClean($login);
         $result = $this->queryEditPassword($login,$password);
         return $result;
     }
@@ -126,7 +128,7 @@ class Account
      * @return bool
      */
     public function removeAcc($login){
-        $login = $this->inClean($login);
+        $login = InputCleaner::inClean($login);
         $result = $this->queryRemoveAcc($login);
         return $result;
     }
@@ -134,7 +136,7 @@ class Account
     public function getCount($keyword,$birth_date,$gender){
         $var_array = array('keyword','gender','birth_date');
         foreach ($var_array as $var){
-            $$var = $this->inClean($$var);
+            $$var = InputCleaner::inClean($$var);
         }
         $result = $this->queryCounter($keyword,$birth_date,$gender);
         return $result;
@@ -167,10 +169,11 @@ class Account
         else {$birth_date = '%';}
         if ($gender == 0) {$gender = '%';}
         $offset = ($page - 1) * $string_count;
-        $sql_query = "SELECT login, firstname, surname, gender, birth_date FROM accounts
-                      WHERE (login LIKE :keyword0 OR firstname LIKE :keyword1 OR surname LIKE :keyword2)
-                              AND (birth_date LIKE :birth_date AND gender LIKE :gender) ".$order_type.' '.$limit;
-        $sql_prepared = Db::sqlConnection()->prepare($sql_query);
+        $sql_query = "SELECT a.login, a.firstname, a.surname, g.g_name, a.birth_date FROM accounts a
+                      INNER JOIN gender g ON a.gender = g.g_id
+                      WHERE (a.login LIKE :keyword0 OR a.firstname LIKE :keyword1 OR a.surname LIKE :keyword2)
+                              AND (a.birth_date LIKE :birth_date AND a.gender LIKE :gender) ".$order_type.' '.$limit;
+        $sql_prepared = $this->pdo->prepare($sql_query);
         for($i=0;$i<3;$i++) {
             $sql_prepared->bindValue(":keyword$i", $keyword,  PDO::PARAM_STR);
         }
@@ -189,7 +192,7 @@ class Account
      */
     private function queryGetOneAcc($login){
         $sql_query = "SELECT login, firstname, surname, gender, birth_date FROM accounts WHERE login = :login";
-        $sql_prepared = Db::sqlConnection()->prepare($sql_query);
+        $sql_prepared = $this->pdo->prepare($sql_query);
         $sql_prepared->bindValue(':login',$login,PDO::PARAM_STR);
         $sql_prepared->execute();
         $result = $sql_prepared->fetch();
@@ -202,7 +205,7 @@ class Account
      */
     private function queryGetOneAccLight($login){
         $sql_query = "SELECT login, password FROM accounts WHERE login = :login";
-        $sql_prepared = Db::sqlConnection()->prepare($sql_query);
+        $sql_prepared = $this->pdo->prepare($sql_query);
         $sql_prepared->bindValue(':login',$login,PDO::PARAM_STR);
         $sql_prepared->execute();
         $result = $sql_prepared->fetch();
@@ -219,11 +222,11 @@ class Account
      * @return bool
      */
     private function queryNewAcc($login,$password,$firstname,$surname,$gender, $birth_date){
-        $password = $this->pwEncrypt($password);
+        $password = Encrypter::enCrypt($password);
         if ($gender == 0){$gender = 3;}
         $values = array($login, $password, $firstname, $surname, $gender, $birth_date);
         $sql_query = "INSERT INTO accounts(login, password, firstname, surname, gender, birth_date) VALUES(?,?,?,?,?,?)";
-        $sql_prepared = Db::sqlConnection()->prepare($sql_query);
+        $sql_prepared = $this->pdo->prepare($sql_query);
         $result = $sql_prepared->execute($values);
         return $result;
     }
@@ -239,7 +242,7 @@ class Account
     private function queryEditAcc($login,$firstname,$surname,$gender, $birth_date){
         $values = array($firstname, $surname, $gender, $birth_date,$login);
         $sql_query = "UPDATE accounts SET firstname=?, surname=?, gender=?, birth_date=? WHERE login = ?";
-        $sql_prepared = Db::sqlConnection()->prepare($sql_query);
+        $sql_prepared = $this->pdo->prepare($sql_query);
         $result = $sql_prepared->execute($values);
         return $result;
     }
@@ -250,9 +253,9 @@ class Account
      * @return bool
      */
     private function queryEditPassword($login,$password){
-        $password = $this->pwEncrypt($password);
+        $password = Encrypter::enCrypt($password);
         $sql_query = "UPDATE accounts SET password = :password WHERE login = :login";
-        $sql_prepared = Db::sqlConnection()->prepare($sql_query);
+        $sql_prepared = $this->pdo->prepare($sql_query);
         $sql_prepared->bindValue(':password', $password, PDO::PARAM_STR);
         $sql_prepared->bindValue(':login', $login, PDO::PARAM_STR);
         $result = $sql_prepared->execute();
@@ -265,7 +268,7 @@ class Account
      */
     private function queryRemoveAcc($login){
         $sql_query = "DELETE FROM accounts WHERE login = :login";
-        $sql_prepared = Db::sqlConnection()->prepare($sql_query);
+        $sql_prepared = $this->pdo->prepare($sql_query);
         $sql_prepared->bindValue(':login', $login, PDO::PARAM_STR);
         $result = $sql_prepared->execute();
         return $result;
@@ -288,7 +291,7 @@ class Account
         $sql_query = "SELECT COUNT(login) FROM accounts
                       WHERE (login LIKE :keyword0 OR firstname LIKE :keyword1 OR surname LIKE :keyword2)
                               AND (birth_date LIKE :birth_date AND gender LIKE :gender)";
-        $sql_prepared = Db::sqlConnection()->prepare($sql_query);
+        $sql_prepared = $this->pdo->prepare($sql_query);
         for($i=0;$i<3;$i++) {
             $sql_prepared->bindValue(":keyword$i", $keyword,  PDO::PARAM_STR);
         }
@@ -297,26 +300,6 @@ class Account
         $sql_prepared->execute();
         $result = $sql_prepared->fetch();
         $result = $result['COUNT(login)'];
-        return $result;
-    }
-
-    /** Cleaning input from user, return result as String
-     * @param $input string - expected some input data from user
-     * @return string - result of cleaning
-     */
-    private function inClean($input){
-        $result = htmlspecialchars(urldecode(trim($input)));
-        return $result;
-    }
-
-    /** Encrypts password, returns result as String
-     *@param $password string - password
-     *@return string - encrypted password
-     */
-    private function pwEncrypt($password){
-        $result = md5($password);
-        $result = substr($result,0,14);
-        $result = $result.'lev';
         return $result;
     }
 }

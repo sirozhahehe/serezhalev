@@ -6,7 +6,6 @@ class Layouts
     private $req_uri;
     public function __construct(){
         $this->dir_array = scandir(ROOT.'/views/layouts/');
-        $this->req_uri = $_SERVER['REQUEST_URI'];
     }
 
     public function getLayout($layout){
@@ -28,5 +27,15 @@ class Layouts
         $else_path[] = '/views/index/index.php';
         $else_path[] = $final_arr;
         return $else_path;
+    }
+
+    public function getLayouts(){
+        foreach($this->dir_array as $dir){
+            if(strpos($dir,'lay') !== false){
+                $pos = strpos($dir,'lay');
+                $dir = mb_substr($dir,0,$pos-1);
+                $final_arr[] = $dir;
+            } }
+            return $final_arr;
     }
 }

@@ -3,10 +3,10 @@
 function even($i){if ($i%2 == 0){ echo 2; } else { echo 1; } }
 /** needs for saving condition of options after reloading page. echo option's order with correct selected option */
 function optionPusher($gender){ switch ($gender) {
-    case 0: echo'<option selected value="0">All</option><option value="3">Not selected</option><option value="1">Male</option><option value="2">Female</option>'; break;
-    case 3: echo'<option value="0">All</option><option selected value="3">Not selected</option><option value="1">Male</option><option value="2">Female</option>'; break;
-    case 1: echo'<option value="0">All</option><option value="3">Not selected</option><option selected value="1">Male</option><option value="2">Female</option>'; break;
-    case 2: echo'<option value="0">All</option><option value="3">Not selected</option><option value="1">Male</option><option selected value="2">Female</option>'; break;
+    case 3: echo'<option selected value="3">All</option><option value="0">Not selected</option><option value="1">Male</option><option value="2">Female</option>'; break;
+    case 0: echo'<option value="3">All</option><option selected value="0">Not selected</option><option value="1">Male</option><option value="2">Female</option>'; break;
+    case 1: echo'<option value="3">All</option><option value="0">Not selected</option><option selected value="1">Male</option><option value="2">Female</option>'; break;
+    case 2: echo'<option value="3">All</option><option value="0">Not selected</option><option value="1">Male</option><option selected value="2">Female</option>'; break;
 }}
 /** needs for saving condition of options after reloading page. echo option's order with correct selected option */
 function orderPusher($order){ switch ($order){
@@ -101,7 +101,7 @@ function pagePusher($last_page,$page){
                         <li><span>FirstName:</span> <?= $res['firstname'];?> </li>
                         <li><span>SurName:</span> <?= $res['surname'];?> </li>
                         <br>
-                        <li><span>Gender:</span> <?= $res['gender'];?> </li>
+                        <li><span>Gender:</span> <?= $res['g_name'];?> </li>
                         <li><span>Birth Date:</span> <?= $res['birth_date'];?> </li>
                         <li><a href="/account/user/<?=$res['login'];?>">More..</a></li>
                     </ul>

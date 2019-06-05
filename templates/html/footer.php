@@ -3,7 +3,7 @@
             <div class="container">
                 <div class="row">
                     <p>Со мной всегда можно связаться через <a href="https://vk.com/serezhalev" target="_blank"><i class="fa fa-vk"></i></a> или по почте <a>1@serezhalev.ru</a></p>
-                    <form class="form-inline" method="post" action="">
+                    <form class="form-inline" method="post" action="/mail">
                         <input type="name" name = "name" id="user_name" class="form-control" placeholder="Ваше имя.." required>
                         <input type="email" name = "email" id="user_email" class="form-control" placeholder="Ваш email.." required>
                         <button type="submit" id="btn_submit" class="btn btn-default">Связаться со мной</button>

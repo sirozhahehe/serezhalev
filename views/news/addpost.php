@@ -6,7 +6,7 @@
             <div class="row">
                 <form class="addpost" method="post" action="">
                     <div class="col-md-11 col-md-offset-1 textworks">
-                            <p class="updateinfo"><?= $result?></p>
+                            <p class="updateinfo"><?= $update_result?></p>
                             <hr>
                             <p>Head</p>
                             <textarea required name="head" class="wow fadeIn update head" data-wow-delay="0.1s" placeholder="Post Head"></textarea>

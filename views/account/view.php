@@ -1,10 +1,10 @@
 <?php
 /** needs for correct display of gender */
 function optionPusher($gender){ switch ($gender) {
-    default: echo '<option value="3">Not selected</option><option value="1">Male</option><option value="2">Female</option>'; break;
+    default: echo '<option value="0">Not selected</option><option value="1">Male</option><option value="2">Female</option>'; break;
     case 'Not selected': echo'<option selected value="3">Not selected</option><option value="1">Male</option><option value="2">Female</option>'; break;
-    case 'Male': echo'<option value="3">Not selected</option><option selected value="1">Male</option><option value="2">Female</option>'; break;
-    case 'Female': echo'<option value="3">Not selected</option><option value="1">Male</option><option selected value="2">Female</option>'; break;
+    case 'Male': echo'<option value="0">Not selected</option><option selected value="1">Male</option><option value="2">Female</option>'; break;
+    case 'Female': echo'<option value="0">Not selected</option><option value="1">Male</option><option selected value="2">Female</option>'; break;
 }}?>
 <?= include ROOT.'/templates/html/head.php'?>
 <?= include ROOT.'/templates/html/navbar.php'?>

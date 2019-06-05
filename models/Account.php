@@ -1,11 +1,7 @@
 <?php
-require_once ROOT.'/components/Db.php';
-require_once ROOT.'/components/Encrypter.php';
-require_once ROOT.'/components/InputCleaner.php';
 
 class Account
 {
-
     private $pdo;
 
     public function __construct()
@@ -13,44 +9,53 @@ class Account
         $this->pdo = Db::sqlConnection();
     }
     /** getAccounts - handles request from AccountController, cleans input through inClean method
-     * calls queryGetAllAcc that returns Array with data that matches the request. After small editing
-     * necessary for correct display 'gender' info, Array returns to AccountController
+     * calls queryGetAllAcc that returns Array with data that matches the request.
+     * Array returns to AccountController
      * @param $keyword string
      * @param $birth_date string - exp. date YYYY-MM-DD
      * @param $gender int- exp. 1(male), 2(female), 0(All), 3(Not selected)
      * @param $order string - exp. column name which use for sorting
      * @param $order_type int - exp. type of sorting
      * @param $page int -  exp. number of page
-     * @return array
+     * @return array where result[0] - Array with data, result[1] - Data Count
      */
 
-    public function getAccounts($page = 1, $keyword = '%',$birth_date = '%',$gender = 0,$order = 'birth_date',$order_type = 2){
+    public function getAccounts($page = 1, $keyword = '',$birth_date = '',$gender = 3,$order = 'birth_date',$order_type = 2){
         $var_array = array('page','keyword','birth_date','gender','order','order_type');
         foreach ($var_array as $var){
             $$var = InputCleaner::inClean($$var);
         }
-        $result = $this->queryGetAllAcc($keyword,$birth_date,$gender,$order,$order_type,$page);
 
+        if ($keyword == '' && $birth_date == '' && $gender == '' && $order == '' && $order_type == '') {
+            $result[] = $this->queryGetAllAcc($_SESSION['keyword'],$_SESSION['birth_date'],$_SESSION['gender'],$_SESSION['order'],$_SESSION['order_type'],$page);
+            $result[] = $this->queryCounter($_SESSION['keyword'],$_SESSION['birth_date'],$_SESSION['gender']);
+        } else {
+            $_SESSION['keyword'] = $keyword; $_SESSION['birth_date'] = $birth_date; $_SESSION['gender'] = $gender;
+            $_SESSION['order'] = $order; $_SESSION['order_type'] = $order_type;
+            $result[] = $this->queryGetAllAcc($_SESSION['keyword'],$_SESSION['birth_date'],$_SESSION['gender'],$_SESSION['order'],$_SESSION['order_type'],$page);
+            $result[] = $this->queryCounter($_SESSION['keyword'],$_SESSION['birth_date'],$_SESSION['gender']);
+        }
+
+        if ($result[1] != 0 && $page > ceil($result[1]/5)){ header('Location: /account');}
         return $result;
     }
 
     /** getOneAcc - -//-
-     * calls queryGetOneAcc that returns Array with User($login) data. After small editing
-     * necessary for correct display 'gender' info, Array returns to AccountController.
+     * calls queryGetOneAcc that returns Array with User($login) data. Array returns to AccountController.
      * @param string $login
-     * @return array
+     * @return bool/array
      */
     public function getOneAcc($login){
         $login = InputCleaner::inClean($login);
         $result = $this->queryGetOneAcc($login);
-            if ($result['gender'] == 0) {
-                $result['gender'] = 'Not selected.';
-            } elseif ($result['gender'] == 1) {
-                $result['gender'] = 'Male';
-            } else {
-                $result['gender'] = 'Female';
-            }
-        return $result;
+
+        if($_SESSION['login'] == $result['login'] || $_SESSION['login'] == 'root'){
+            return $result;
+        } else {
+            $_SESSION['msg'] = 'You have not enough permissions'; //needs to show to user his incorrect action
+            return false;
+        }
+
     }
 
     /** getLightAcc - light version of getOneAcc. Needs for sign in and sign up actions.
@@ -58,13 +63,22 @@ class Account
      * @param $login string
      * @return bool/array
      */
-    public function getLightAcc($login){
+    public function signIn($login){
         $login = InputCleaner::inClean($login);
-        $result = $this->queryGetOneAccLight($login);
-        if ($result){
-            return $result;
-        } else {
-            return false;
+
+        if (isset($login)){
+            $result = $this->queryGetOneAccLight($login);
+            $pw = Encrypter::enCrypt($_POST['password']);  //encrypting password
+            if ($result) {
+                if ($pw == $result['password']) {
+                    $_SESSION['login'] = $result['login'];
+                    return true;
+                } else {
+                    return $msg = 'Incorrect data';
+                }
+            } else {
+                return $msg = 'Incorrect data';
+            }
         }
     }
 
@@ -78,17 +92,23 @@ class Account
      * @param $birth_date string
      * @return string/bool
      */
-    public function newAcc($login,$password,$firstname = '0',$surname = '0',$gender = 0, $birth_date = '0000-00-00'){
+    public function newAcc($login,$password,$firstname,$surname,$gender, $birth_date){
         $var_array = array('login','password','firstname','surname','gender','birth_date');
         foreach ($var_array as $var){
             $$var = InputCleaner::inClean($$var);
         }
-        $result = $this->queryNewAcc($login,$password,$firstname,$surname,$gender,$birth_date);
+        if ($birth_date == 0){$birth_date = '1970-01-01';}
+        $gender = $gender * 1;
+        $result = $this->queryGetOneAccLight($login);
         if ($result) {
-            return 'Success!';
-        } else {
-            return false;
-        }
+                return $msg = 'This login already exist';
+        } elseif (preg_match('~^[A-Za-z0-9]{3,15}$~', $login) == 0){
+                return $msg = 'Incorrect login';
+        } elseif (!$result) {
+                $this->queryNewAcc($login, $password,$firstname,$surname,$gender,$birth_date);
+                $_SESSION['login'] = $login;
+                return true;
+            }
     }
 
     /** editAcc -//-
@@ -106,6 +126,12 @@ class Account
             $$var = InputCleaner::inClean($$var);
         }
         $result = $this->queryEditAcc($login,$firstname,$surname,$gender,$birth_date);
+
+        if ($result){
+            $_SESSION['edit_msg'] = 'Edit successful'; // needs to show to user status of his action
+        } else {
+            $_SESSION['edit_msg'] = 'Something went wrong, try later';
+        }
         return $result;
     }
 
@@ -119,6 +145,13 @@ class Account
         $password = InputCleaner::inClean($password);
         $login = InputCleaner::inClean($login);
         $result = $this->queryEditPassword($login,$password);
+        if ($result){
+                $_SESSION['edit_msg'] = 'Edit successful'; // needs to show to user status of his action
+        } else {
+                $_SESSION['edit_msg'] = 'Something went wront, try later';
+            }
+
+
         return $result;
     }
 
@@ -130,15 +163,12 @@ class Account
     public function removeAcc($login){
         $login = InputCleaner::inClean($login);
         $result = $this->queryRemoveAcc($login);
-        return $result;
-    }
-
-    public function getCount($keyword,$birth_date,$gender){
-        $var_array = array('keyword','gender','birth_date');
-        foreach ($var_array as $var){
-            $$var = InputCleaner::inClean($$var);
+        if ($result){
+            $_SESSION['msg'] = 'Remove successful';
+        } else {
+            $_SESSION['msg'] = 'Something went wrong, try later';
         }
-        $result = $this->queryCounter($keyword,$birth_date,$gender);
+        if($_SESSION['login'] == $login){unset($_SESSION['login']);}
         return $result;
     }
 
@@ -153,8 +183,8 @@ class Account
      * @param $page int -  exp. number of page
      * @return array associative  - result of query
      */
-    private function queryGetAllAcc($keyword,$birth_date,$gender,$order,$order_type,$page,$string_count = 5){
-        if (!$order){$order='birth_date';}
+    private function queryGetAllAcc($keyword = '%',$birth_date = '%',$gender = 3,$order = 'birth_date',$order_type = 2,$page,$string_count = 5){
+        if ($order == ''){$order='birth_date';}
         $order_up = "ORDER BY $order ASC";
         $order_down = "ORDER BY $order DESC";
         $limit = "LIMIT :limit OFFSET :offset";
@@ -165,9 +195,9 @@ class Account
         }
         if ($keyword){ $keyword = '%'.$keyword.'%'; }
         else { $keyword = '%';}
-        if ($birth_date){ $birth_date = '%'.$birth_date.'%'; }
+        if ($birth_date != 0){ $birth_date = '%'.$birth_date.'%'; }
         else {$birth_date = '%';}
-        if ($gender == 0) {$gender = '%';}
+        if ($gender == 3 || $gender == NULL) {$gender = '%';}
         $offset = ($page - 1) * $string_count;
         $sql_query = "SELECT a.login, a.firstname, a.surname, g.g_name, a.birth_date FROM accounts a
                       INNER JOIN gender g ON a.gender = g.g_id
@@ -191,7 +221,8 @@ class Account
      * @return array associative - returns all information about user
      */
     private function queryGetOneAcc($login){
-        $sql_query = "SELECT login, firstname, surname, gender, birth_date FROM accounts WHERE login = :login";
+        $sql_query = "SELECT a.login, a.firstname, a.surname, g.g_name, a.birth_date FROM accounts a INNER JOIN gender g ON a.gender = g.g_id 
+                      WHERE login = :login";
         $sql_prepared = $this->pdo->prepare($sql_query);
         $sql_prepared->bindValue(':login',$login,PDO::PARAM_STR);
         $sql_prepared->execute();
@@ -223,7 +254,6 @@ class Account
      */
     private function queryNewAcc($login,$password,$firstname,$surname,$gender, $birth_date){
         $password = Encrypter::enCrypt($password);
-        if ($gender == 0){$gender = 3;}
         $values = array($login, $password, $firstname, $surname, $gender, $birth_date);
         $sql_query = "INSERT INTO accounts(login, password, firstname, surname, gender, birth_date) VALUES(?,?,?,?,?,?)";
         $sql_prepared = $this->pdo->prepare($sql_query);
@@ -287,7 +317,7 @@ class Account
         else { $keyword = '%';}
         if ($birth_date){ $birth_date = '%'.$birth_date.'%'; }
         else {$birth_date = '%';}
-        if ($gender == 0) {$gender = '%';}
+        if ($gender == 3 || $gender == NULL) {$gender = '%';}
         $sql_query = "SELECT COUNT(login) FROM accounts
                       WHERE (login LIKE :keyword0 OR firstname LIKE :keyword1 OR surname LIKE :keyword2)
                               AND (birth_date LIKE :birth_date AND gender LIKE :gender)";

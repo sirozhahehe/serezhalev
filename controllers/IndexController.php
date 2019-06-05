@@ -13,8 +13,7 @@ class IndexController
     public function actionView(){
 
         $msg = MailController::actionMailtome($_POST['name'],$_POST['email']);
-        $result = $this->index_obj->getLayout();
-        $result = $result[1];
+        $result = $this->index_obj->getLayouts();
         require_once (ROOT.'/views/index/index.php');
         return true;
     }

@@ -6,6 +6,7 @@
         'news/page([0-9]+)$' => 'news/index/$1',
         'news/update/([0-9]+)$' => 'news/update/$1',
         'news/newpost$' => 'news/add',
+        'mail$' => 'mail/mailtome',
         'layouts/([A-Za-z]+)$'=> 'layout/index/$1',
         'account/login$' => 'account/login',
         'account/logout$' => 'account/logout',

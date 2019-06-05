@@ -36,7 +36,7 @@ $notes_arr = array('Шаблоны взяты с сайта <strong>cssauthor.co
                 </div>
                 <div class="col-md-5">
                     <div class="imageworks wow fadeIn" data-wow-delay="0.3s">
-                        <a data-fancybox href="/templates/img/imgbig<?= $i?>.jpg"><img id="imagework" src="/templates/img/imgsmall<?= $i?>.JPG" height="100%" width="100%" alt=""/></a>
+                        <a data-fancybox href="/templates/img/imgbig<?= $i?>.jpg"><img id="imagework" src="/templates/img/imgsmall<?= $i?>.jpg" height="100%" width="100%" alt=""/></a>
                     </div>
                 </div>
             </div>

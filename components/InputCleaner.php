@@ -1,4 +1,5 @@
 <?php
+
 class InputCleaner
 {
     /** Cleaning input from user, return result as String

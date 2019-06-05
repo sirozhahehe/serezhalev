@@ -1,5 +1,5 @@
 <?php
-
+require_once ROOT.'/components/InputCleaner.php';
 class Mail
 {
     private $myemail;
@@ -14,11 +14,14 @@ class Mail
         if (is_array($msg)){
             return $msg;
         }
-        $result = $this->mailCleaner($name,$email,$message);
+        $var_array = array('name','email','message');
+        foreach ($var_array as $var){
+            $$var = InputCleaner::inClean($$var);
+        }
         if (mail(
             $this->myemail,
-            "Letter from " . $result['name'],
-            $result['msg'] . "<br/>" . $result['email'],
+            "Letter from " . $name,
+            $message . "<br/>" . $email,
             $headers ="Content-type: text/html; charset=utf-8\r\n" .
                 "MIME-Version: 1.0\r\n"
         ) ) {
@@ -47,20 +50,5 @@ class Mail
         } else {
             return $errors;
         }
-    }
-
-    private function mailCleaner($name,$email,$message){
-        $email = urldecode($email);
-        $message = urldecode($message);
-        $name = urldecode($name);
-
-        $email = htmlspecialchars($email);
-        $message = htmlspecialchars($message);
-        $name = htmlspecialchars($name);
-
-        $result['email'] = trim($email);
-        $result['msg'] = trim($message);
-        $result['name'] = trim($name);
-        return $result;
     }
 }

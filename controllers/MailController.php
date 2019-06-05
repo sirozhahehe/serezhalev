@@ -9,7 +9,7 @@ class MailController
     }
 
     public function actionMailtome(){
-        $mail_obj = new Mail('thisisdaijas@gmail.com');
+        $mail_obj = new Mail('example@mail.com');
 
         if ($_POST['name'] && $_POST['email']){
         $mail_obj->mailToMe($_POST['name'],$_POST['email']);
